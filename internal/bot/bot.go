@@ -45,7 +45,6 @@ func (b *Bot) RunBot(config *Config) error {
 			if err := b.srv.HandleNextStep(&update, &msg); err != nil {
 				return err
 			}
-
 		} else {
 			switch update.Message.Command() {
 			case "create":
@@ -53,7 +52,7 @@ func (b *Bot) RunBot(config *Config) error {
 			case "complete":
 				msg.Text = "Choose a task to complete"
 			case "profile":
-				msg.Text = "Here it is"
+				b.srv.CommandProfile(&update, &msg)
 			default:
 				msg.Text = "I don't know this command"
 			}

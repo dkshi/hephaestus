@@ -35,3 +35,14 @@ func (t *TaskPostgres) CreateTaskTable() error {
 	}
 	return nil
 }
+
+func (t *TaskPostgres) GetTasks(chatId int64) ([]hephaestus.Task, error) {
+	var tasks []hephaestus.Task
+	query := fmt.Sprintf("SELECT * FROM %s WHERE chat_id = $1", tasksTable)
+
+	if err := t.db.Select(&tasks, query, chatId); err != nil {
+		return nil, err
+	}
+
+	return tasks, nil
+}

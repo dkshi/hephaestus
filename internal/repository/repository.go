@@ -8,6 +8,7 @@ import (
 type Task interface {
 	CreateTask(task *hephaestus.Task) (int64, error)
 	CreateTaskTable() error
+	GetTasks(chatId int64) ([]hephaestus.Task, error)
 }
 
 type Repository struct {
@@ -20,8 +21,8 @@ func NewRepository(db *sqlx.DB) *Repository {
 	}
 }
 
-func (r *Repository) CreateTables() error{
-	if err := r.CreateTaskTable(); err != nil{
+func (r *Repository) CreateTables() error {
+	if err := r.CreateTaskTable(); err != nil {
 		return err
 	}
 	return nil

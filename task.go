@@ -3,8 +3,8 @@ package hephaestus
 import "time"
 
 type Task struct {
-	TaskID int64
-	ChatID   int64
-	TaskName string
-	Deadline time.Time
+	TaskID   int64     `db:"task_id"`
+	ChatID   int64     `db:"chat_id"`
+	TaskName string    `db:"task_name"`
+	Deadline time.Time `db:"deadline"`
 }
