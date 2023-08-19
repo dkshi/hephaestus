@@ -9,6 +9,7 @@ type Task interface {
 	CreateTask(task *hephaestus.Task) (int64, error)
 	CreateTaskTable() error
 	GetTasks(chatId int64) ([]hephaestus.Task, error)
+	DeleteTask(taskId int64) error
 }
 
 type Repository struct {

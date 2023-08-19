@@ -50,7 +50,7 @@ func (b *Bot) RunBot(config *Config) error {
 			case "create":
 				b.srv.CommandCreate(&update, &msg)
 			case "complete":
-				msg.Text = "Choose a task to complete"
+				b.srv.CommandComplete(&update, &msg)
 			case "profile":
 				b.srv.CommandProfile(&update, &msg)
 			default:

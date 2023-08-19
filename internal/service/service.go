@@ -12,8 +12,8 @@ import (
 
 type Service struct {
 	LastStep *nextStepLinkedList
-	repo *repository.Repository
-	task *hephaestus.Task
+	repo     *repository.Repository
+	task     *hephaestus.Task
 }
 
 // Linked list for storing steps
@@ -22,11 +22,11 @@ type nextStepLinkedList struct {
 	next *nextStepLinkedList
 }
 
-func NewService(r *	repository.Repository) *Service {
+func NewService(r *repository.Repository) *Service {
 	return &Service{
 		LastStep: nil,
-		repo: r,
-		task: nil,
+		repo:     r,
+		task:     nil,
 	}
 }
 
@@ -48,18 +48,24 @@ func (s *Service) CommandProfile(upd *tgbotapi.Update, m *tgbotapi.MessageConfig
 	username := upd.FromChat().UserName
 	chatId := upd.Message.Chat.ID
 
-	answer := fmt.Sprintf("Hey, %s! \nChatID: %x \nYour tasks: ", username, chatId)
+	answer := fmt.Sprintf("Hey, %s! \nChatID: %d \nYour tasks: ", username, chatId)
 	tasks, err := s.repo.GetTasks(chatId)
 
-	if err != nil{
+	if err != nil {
 		logrus.Fatalf("error getting profile: %s", err.Error())
 		return
 	}
+	
 
-	for _, task := range tasks{
-		s := fmt.Sprintf("\nTaskID: %x Task: %s Deadline: %s",task.TaskID, task.TaskName, task.Deadline.Format("2006-01-02 15:04:05"))
+	for _, task := range tasks {
+		s := fmt.Sprintf("\nTaskID: %d Task: %s Deadline: %s", task.TaskID, task.TaskName, task.Deadline.Format("2006-01-02 15:04:05"))
 		answer += s
 	}
 
 	m.Text = answer
+}
+
+func (s *Service) CommandComplete(upd *tgbotapi.Update, m *tgbotapi.MessageConfig) {
+	m.Text = "Enter task ID (see your profile)"
+	s.linkedCmdComplete()
 }

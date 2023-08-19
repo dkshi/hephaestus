@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/dkshi/hephaestus"
@@ -45,4 +46,22 @@ func (t *TaskPostgres) GetTasks(chatId int64) ([]hephaestus.Task, error) {
 	}
 
 	return tasks, nil
+}
+
+func (t *TaskPostgres) DeleteTask(taskId int64) error {
+	query := fmt.Sprintf("DELETE FROM %s WHERE task_id = $1", tasksTable)
+	res, err := t.db.Exec(query, taskId)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if rowsAffected == 0{
+		return errors.New("error rows affected: rowsAffected = 0")
+	}
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
