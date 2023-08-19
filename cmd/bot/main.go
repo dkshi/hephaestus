@@ -37,7 +37,7 @@ func main() {
 		SSLMode:  viper.GetString("db.sslmode"),
 		Password: os.Getenv("DB_PASSWORD"),
 	})
-	if err != nil{
+	if err != nil {
 		logrus.Fatalf("error db connecting: %s", err.Error())
 	}
 

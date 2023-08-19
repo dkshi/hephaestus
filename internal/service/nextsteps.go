@@ -66,15 +66,15 @@ func (s *Service) CommandCompleteLast(upd *tgbotapi.Update, m *tgbotapi.MessageC
 	taskId, err := strconv.ParseInt(upd.Message.Text, 10, 64)
 	m.Text = "Enter correct task ID"
 
-	if err != nil{
+	if err != nil {
 		return
 	}
 
 	err = s.repo.DeleteTask(taskId)
-	
-	if err != nil{
+
+	if err != nil {
 		m.Text = fmt.Sprintf("There is no task with ID: %d", taskId)
-	} else{
+	} else {
 		m.Text = fmt.Sprintf("Task (%d) was completed!", taskId)
 	}
 

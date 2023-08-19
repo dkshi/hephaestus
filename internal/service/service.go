@@ -55,7 +55,6 @@ func (s *Service) CommandProfile(upd *tgbotapi.Update, m *tgbotapi.MessageConfig
 		logrus.Fatalf("error getting profile: %s", err.Error())
 		return
 	}
-	
 
 	for _, task := range tasks {
 		s := fmt.Sprintf("\nTaskID: %d Task: %s Deadline: %s", task.TaskID, task.TaskName, task.Deadline.Format("2006-01-02 15:04:05"))

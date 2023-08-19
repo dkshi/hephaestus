@@ -56,7 +56,7 @@ func (t *TaskPostgres) DeleteTask(taskId int64) error {
 	}
 
 	rowsAffected, err := res.RowsAffected()
-	if rowsAffected == 0{
+	if rowsAffected == 0 {
 		return errors.New("error rows affected: rowsAffected = 0")
 	}
 	if err != nil {
