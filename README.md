@@ -80,36 +80,36 @@ Here we obtain an updates channel and process each update in an infinite loop:
 ```go
 updates := b.BotApi.GetUpdatesChan(updateConfig)
 
-	for update := range updates {
-		if update.Message == nil {
-			continue
-		}
+for update := range updates {
+	if update.Message == nil {
+		continue
+	}
 
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+	msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
 
-		// Handle next step if user previously used a command else wait for new command
-		if b.srv.LastStep != nil {
+	// Handle next step if user previously used a command else wait for new command
+	if b.srv.LastStep != nil {
 
-			if err := b.srv.HandleNextStep(&update, &msg); err != nil {
-				return err
-			}
-		} else {
-			switch update.Message.Command() {
-			case "create":
-				b.srv.CommandCreate(&update, &msg)
-			case "complete":
-				b.srv.CommandComplete(&update, &msg)
-			case "profile":
-				b.srv.CommandProfile(&update, &msg)
-			default:
-				msg.Text = "I don't know this command"
-			}
-		}
-
-		if _, err := b.BotApi.Send(msg); err != nil {
+		if err := b.srv.HandleNextStep(&update, &msg); err != nil {
 			return err
 		}
+	} else {
+		switch update.Message.Command() {
+		case "create":
+			b.srv.CommandCreate(&update, &msg)
+		case "complete":
+			b.srv.CommandComplete(&update, &msg)
+		case "profile":
+			b.srv.CommandProfile(&update, &msg)
+		default:
+			msg.Text = "I don't know this command"
+		}
 	}
+
+	if _, err := b.BotApi.Send(msg); err != nil {
+		return err
+	}
+}
 ```
 
 
